@@ -1,2 +1,2 @@
-# CopyPaste-proyect
+# Arquitectura (Mapa de conocimiento) 
 Hackatón UNI 
