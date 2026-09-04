@@ -1,2 +1,2 @@
-# Arquitectura (Mapa de conocimiento) 
+# Arquitectura (PrevenIA) 
 Hackatón UNI 
