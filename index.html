@@ -257,9 +257,11 @@
       <div class="tag">Alerta temprana de riesgo de abandono escolar</div>
     </div>
 
+    <button id="backToCursos" style="align-self:flex-start; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#EDEFF3; padding:7px 12px; border-radius:7px; font-size:12px; cursor:pointer; font-family:'IBM Plex Sans'; margin-top:4px;">← Mis cursos</button>
+
     <div class="section-select">
       Tutoría a cargo
-      <strong>Panel General</strong>
+      <strong id="cursoActivo">Panel General</strong>
     </div>
 
     <div class="summary" id="summaryPills"></div>
@@ -472,6 +474,21 @@ async function generateRecommendation(s, r){
     btn.textContent = "Generar recomendación con IA";
   }
 }
+
+// Guard de sesion: si no hay usuario logueado, volver al login
+if (!localStorage.getItem('prevenia_user')) {
+  window.location.href = '/';
+}
+
+// Leer el curso seleccionado desde la URL (viene de /cursos)
+const urlParams = new URLSearchParams(window.location.search);
+const nombreCurso = urlParams.get('nombre');
+if (nombreCurso) {
+  const cursoEl = document.getElementById('cursoActivo');
+  if (cursoEl) cursoEl.textContent = decodeURIComponent(nombreCurso);
+}
+const backBtn = document.getElementById('backToCursos');
+if (backBtn) backBtn.addEventListener('click', () => { window.location.href = '/cursos'; });
 
 // Iniciar carga de datos al abrir la página
 cargarEstudiantes();
