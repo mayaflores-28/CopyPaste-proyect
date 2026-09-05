@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PrevenIA — Inicio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#14213D; --navy-2:#1C2C4C; --bg:#F4F5F3; --panel:#FFFFFF; --ink:#14213D;
+  --muted:#5B6472; --line:#E3E5E1; --gold:#C98A2B; --green:#2E8B57; --green-bg:#E9F5EE;
+  --amber:#C98A2B; --amber-bg:#FBF1DE; --red:#B5423A; --red-bg:#FBEBE8;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{font-family:'IBM Plex Sans', system-ui, sans-serif; background:var(--bg); color:var(--ink); min-height:100vh;}
+.mono{font-family:'IBM Plex Mono', monospace;}
+
+/* Top bar */
+.topbar{
+  background:var(--navy); color:#EDEFF3; padding:14px 30px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.topbar .brand{font-size:18px; font-weight:700; letter-spacing:-0.01em;}
+.topbar .right{display:flex; align-items:center; gap:14px;}
+.avatar{
+  width:34px; height:34px; border-radius:50%; background:var(--gold); color:var(--navy);
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13.5px;
+}
+.who{display:flex; flex-direction:column; line-height:1.25;}
+.who .nm{font-size:13px; font-weight:600;}
+.who .rl{font-size:10.5px; color:#AEB6C8;}
+.logout-btn{
+  background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#EDEFF3;
+  padding:7px 12px; border-radius:7px; font-size:12px; cursor:pointer; font-family:'IBM Plex Sans';
+}
+.logout-btn:hover{background:rgba(255,255,255,0.16);}
+
+/* Content */
+.content{max-width:1080px; margin:0 auto; padding:34px 26px 60px;}
+.welcome h1{font-size:23px; margin:0 0 4px 0;}
+.welcome .sub{font-size:13.5px; color:var(--muted); margin-bottom:28px;}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:16px;
+}
+@media (max-width:760px){ .grid{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:480px){ .grid{grid-template-columns:1fr;} }
+
+.card{
+  background:var(--panel); border:1px solid var(--line); border-radius:12px;
+  padding:20px 18px; cursor:pointer; position:relative; transition:box-shadow .15s, transform .15s;
+}
+.card:hover{box-shadow:0 8px 22px rgba(20,33,61,0.10); transform:translateY(-2px);}
+.card.disabled{opacity:.62; cursor:default;}
+.card.disabled:hover{box-shadow:none; transform:none;}
+.card .icon{
+  width:38px; height:38px; border-radius:9px; display:flex; align-items:center; justify-content:center;
+  font-size:18px; margin-bottom:14px;
+}
+.card.active .icon{background:var(--green-bg); color:var(--green);}
+.card.disabled .icon{background:#F1F2EE; color:var(--muted);}
+.card h3{font-size:14.5px; margin:0 0 4px 0;}
+.card p{font-size:12px; color:var(--muted); margin:0; line-height:1.4;}
+.soon-tag{
+  position:absolute; top:14px; right:14px; font-size:9.5px; text-transform:uppercase;
+  letter-spacing:.05em; color:var(--muted); background:#F1F2EE; padding:3px 7px; border-radius:5px;
+}
+
+/* Toast */
+.toast{
+  position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px);
+  background:var(--navy); color:#EDEFF3; padding:11px 20px; border-radius:9px;
+  font-size:13px; opacity:0; pointer-events:none; transition:all .2s; box-shadow:0 10px 30px rgba(0,0,0,0.25);
+}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">PrevenIA</div>
+  <div class="right">
+    <div class="who">
+      <div class="nm" id="userName">—</div>
+      <div class="rl">Docente tutor</div>
+    </div>
+    <div class="avatar" id="userInitials">—</div>
+    <button class="logout-btn" id="logoutBtn">Cerrar sesión</button>
+  </div>
+</div>
+
+<div class="content">
+  <div class="welcome">
+    <h1>Hola, <span id="userFirst">profesor(a)</span> 👋</h1>
+    <div class="sub">Este es tu panel de inicio. Selecciona una opción para continuar.</div>
+  </div>
+
+  <div class="grid">
+    <div class="card active" id="cardCursos">
+      <div class="icon">📚</div>
+      <h3>Mis cursos</h3>
+      <p>Revisa tus secciones y el panel de riesgo de cada una.</p>
+    </div>
+
+    <div class="card disabled" data-soon="Calificaciones">
+      <span class="soon-tag">Próximamente</span>
+      <div class="icon">🗂️</div>
+      <h3>Calificaciones</h3>
+      <p>Registro de notas y evaluaciones por curso.</p>
+    </div>
+
+    <div class="card disabled" data-soon="Calendario">
+      <span class="soon-tag">Próximamente</span>
+      <div class="icon">📅</div>
+      <h3>Calendario</h3>
+      <p>Fechas de evaluaciones, reuniones y entregas.</p>
+    </div>
+
+    <div class="card disabled" data-soon="Mensajes">
+      <span class="soon-tag">Próximamente</span>
+      <div class="icon">✉️</div>
+      <h3>Mensajes</h3>
+      <p>Comunicación directa con padres y estudiantes.</p>
+    </div>
+
+    <div class="card disabled" data-soon="Contenidos">
+      <span class="soon-tag">Próximamente</span>
+      <div class="icon">📎</div>
+      <h3>Contenidos</h3>
+      <p>Material de clase, guías y recursos compartidos.</p>
+    </div>
+
+    <div class="card disabled" data-soon="Configuración">
+      <span class="soon-tag">Próximamente</span>
+      <div class="icon">⚙️</div>
+      <h3>Configuración</h3>
+      <p>Preferencias de cuenta y notificaciones.</p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const user = JSON.parse(localStorage.getItem('prevenia_user') || 'null');
+if (!user) {
+  window.location.href = '/';
+} else {
+  document.getElementById('userName').textContent = user.nombre;
+  document.getElementById('userFirst').textContent = user.nombre.split(' ')[0];
+  document.getElementById('userInitials').textContent = user.nombre
+    .split(' ').filter(Boolean).slice(0,2).map(p => p[0].toUpperCase()).join('');
+}
+
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  localStorage.removeItem('prevenia_user');
+  window.location.href = '/';
+});
+
+document.getElementById('cardCursos').addEventListener('click', () => {
+  window.location.href = '/cursos';
+});
+
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+document.querySelectorAll('.card.disabled').forEach(card => {
+  card.addEventListener('click', () => {
+    showToast(`"${card.dataset.soon}" estará disponible próximamente.`);
+  });
+});
+</script>
+</body>
+</html>
