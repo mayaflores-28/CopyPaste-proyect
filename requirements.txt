@@ -1,4 +1,5 @@
-fastapi 
-redis 
-types-redis 
+fastapi
 uvicorn
+python-dotenv
+supabase
+google-genai
